@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('status/{id}', [PeminjamanController::class, 'status']);
         Route::get('profile/{id}', [AdminContoller::class, 'edit']);
         Route::put('profile/{id}', [AdminContoller::class, 'update']);
+        Route::get('download/surat/{id}', [PeminjamanController::class, 'download']);
 
         Route::middleware('admin')->group(function () {
             Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');

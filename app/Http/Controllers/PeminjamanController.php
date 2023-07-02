@@ -208,4 +208,10 @@ class PeminjamanController extends Controller
         $data->delete();
         return redirect('administrator/peminjaman');
     }
+
+    public function download($id)
+    {
+        $path = public_path('storage/surat/' . $id);
+        return response()->download($path);
+    }
 }
