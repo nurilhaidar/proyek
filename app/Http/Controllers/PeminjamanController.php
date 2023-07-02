@@ -8,6 +8,7 @@ use App\Models\PeminjamanModel;
 use App\Models\StatusModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class PeminjamanController extends Controller
 {
@@ -213,5 +214,29 @@ class PeminjamanController extends Controller
     {
         $path = public_path('storage/surat/' . $id);
         return response()->download($path);
+    }
+
+    public function show_cetak(Request $request)
+    {
+        if ($request != null) {
+            $tanggal_awal = $request->input('tanggal_awal');
+            $tanggal_akhir = $request->input('tanggal_akhir');
+
+            $data = PeminjamanModel::whereBetween('tanggal_pinjam', [$tanggal_awal, $tanggal_akhir])->get();
+            return view('admin.peminjaman.search_peminjaman', compact('data', 'tanggal_awal', 'tanggal_akhir'));
+        }
+
+        return view('admin.peminjaman.search_peminjaman');
+    }
+
+    public function cetak_pdf(Request $request)
+    {
+        $tanggal_awal = $request->input('tanggal_awal');
+        $tanggal_akhir = $request->input('tanggal_akhir');
+
+        $data = PeminjamanModel::whereBetween('tanggal_pinjam', [$tanggal_awal, $tanggal_akhir])->get();
+
+        $pdf = PDF::loadview('admin.peminjaman.cetak_peminjaman', compact('data'));
+        return $pdf->stream();
     }
 }

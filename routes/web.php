@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('status/{id}', [PeminjamanController::class, 'status']);
         Route::get('profile/{id}', [AdminContoller::class, 'edit']);
         Route::put('profile/{id}', [AdminContoller::class, 'update']);
+        Route::get('cetak', [PeminjamanController::class, 'show_cetak']);
+        Route::get('cetak_pdf', [PeminjamanController::class, 'cetak_pdf']);
         Route::get('download/surat/{id}', [PeminjamanController::class, 'download']);
 
         Route::middleware('admin')->group(function () {
